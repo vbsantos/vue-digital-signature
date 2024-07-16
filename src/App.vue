@@ -16,3 +16,9 @@ if (authStore.isAuthenticated) {
 <template>
   <router-view />
 </template>
+
+<style>
+body {
+  background-color: #dce3f8a4;
+}
+</style>

@@ -79,7 +79,7 @@ export default {
         }
         await this.fetchEnvelopes();
         this.closeModal();
-        toast("Envelope criada com sucesso", { autoClose: 2000 });
+        toast("Envelope criado com sucesso", { autoClose: 2000 });
       } catch (error) {
         toast("Erro ao criar envelope", { autoClose: 2000 });
         console.error('Erro ao criar envelope:', error);
