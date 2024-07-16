@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import { toast } from 'vue3-toastify';
+
 export default {
   props: ['show', 'closeModal', 'repositoryId', 'envelopeId', 'fetchEnvelopes'],
   data() {
@@ -52,13 +54,16 @@ export default {
           body: JSON.stringify({ name: this.signerName, email: this.signerEmail })
         });
         if (response.status === 401) {
+          toast("É necessário logar novamente", { autoClose: 2000 });
           localStorage.removeItem('jwt');
           this.$router.push('/');
           return;
         }
         await this.fetchEnvelopes();
+        toast("Signatário adicionado com sucesso", { autoClose: 2000 });
         this.closeModal();
       } catch (error) {
+        toast("Erro ao adicionar signatário", { autoClose: 2000 });
         console.error('Erro ao adicionar signatário:', error);
       }
     }

@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import { toast } from 'vue3-toastify';
 
 export default {
   props: ['show', 'closeModal', 'fetchRepositories'],
@@ -49,13 +50,16 @@ export default {
           body: JSON.stringify({ name: this.name })
         });
         if (response.status === 401) {
+        toast("É necessário logar novamente", { autoClose: 2000 });
           localStorage.removeItem('jwt');
           this.$router.push('/');
           return;
         }
         await this.fetchRepositories();
         this.closeModal();
+        toast("Repositório criado com sucesso", { autoClose: 2000 });
       } catch (error) {
+        toast("Erro ao criar repositório", { autoClose: 2000 });
         console.error('Erro ao criar repositório:', error);
       }
     }

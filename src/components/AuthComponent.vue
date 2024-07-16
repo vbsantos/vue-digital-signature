@@ -1,8 +1,9 @@
 <template>
   <div class="container mt-5">
     <div class="row justify-content-center">
+      <h1 class="text-center mb-5">Desafio AVMB</h1>
       <div class="col-md-6">
-        <h1 class="text-center">{{ isLogin ? 'Login' : 'Registro' }}</h1>
+        <h3 class="text-center">{{ isLogin ? 'Login' : 'Registro' }}</h3>
         <form @submit.prevent="authenticate" class="mt-4">
           <div class="mb-3">
             <label for="email" class="form-label">Email:</label>
@@ -27,6 +28,7 @@
 import { ref } from 'vue';
 import { useAuthStore } from '../store';
 import { useRouter } from 'vue-router';
+import { toast } from 'vue3-toastify';
 
 const email = ref('');
 const password = ref('');
@@ -47,13 +49,23 @@ const authenticate = async () => {
       },
       body: JSON.stringify({ email: email.value, password: password.value })
     });
+    console.log({response});
     if (!response.ok) {
+      toast("Falha na autenticação", { autoClose: 2000 });
       throw new Error('Falha na autenticação');
+    }
+    if (!isLogin.value) {
+      toast("Registro efetuado com sucesso", { autoClose: 2000 });
+      isLogin.value = true;
+      return;
     }
     const data = await response.json();
     authStore.login(data.accessToken);
+    toast("Login efetuado com sucesso", { autoClose: 2000 });
     router.push('/digital-signature/repositories');
   } catch (err) {
+    toast("Erro ao fazer login", { autoClose: 2000 });
+    console.error('Erro ao autenticar:', err);
     error.value = err.message;
   }
 };

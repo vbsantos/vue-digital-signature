@@ -1,8 +1,9 @@
 <script setup>
 import { useAuthStore } from './store';
 import { useRouter } from 'vue-router';
-import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
+import "bootstrap/dist/css/bootstrap.min.css"
+import 'vue3-toastify/dist/index.css';
 
 const authStore = useAuthStore();
 const router = useRouter();

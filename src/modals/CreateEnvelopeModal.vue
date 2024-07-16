@@ -9,7 +9,8 @@
         <div class="modal-body">
           <div class="mb-3">
             <label for="envelopeDescription" class="form-label">Descrição</label>
-            <input type="text" class="form-control" id="envelopeDescription" v-model="description" placeholder="Descrição" />
+            <input type="text" class="form-control" id="envelopeDescription" v-model="description"
+              placeholder="Descrição" />
           </div>
           <div class="mb-3">
             <label for="envelopeFiles" class="form-label">Arquivos</label>
@@ -26,6 +27,7 @@
 </template>
 
 <script>
+import { toast } from 'vue3-toastify';
 export default {
   props: ['show', 'closeModal', 'repositoryId', 'fetchEnvelopes'],
   data() {
@@ -70,13 +72,16 @@ export default {
           body: JSON.stringify({ description: this.description, documents })
         });
         if (response.status === 401) {
+          toast("É necessário logar novamente", { autoClose: 2000 });
           localStorage.removeItem('jwt');
           this.$router.push('/');
           return;
         }
         await this.fetchEnvelopes();
         this.closeModal();
+        toast("Envelope criada com sucesso", { autoClose: 2000 });
       } catch (error) {
+        toast("Erro ao criar envelope", { autoClose: 2000 });
         console.error('Erro ao criar envelope:', error);
       }
     }

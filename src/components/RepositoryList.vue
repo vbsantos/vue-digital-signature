@@ -1,20 +1,17 @@
 <template>
   <div class="container mt-5">
-    <h1 class="my-5">Lista de Repositórios</h1>
+    <button class="btn btn-warning float-end" @click="logout">Logoff</button>
+    <h1 class="my-5">Repositórios</h1>
     <button class="btn btn-primary mb-3" @click="showCreateRepositoryModal">Criar Novo Repositório</button>
 
     <div v-if="loading">Carregando...</div>
 
-    <div v-else-if="items.length === 0" class="my-2">Nenhum dado disponível</div>
+    <div v-else-if="repositories.length === 0" class="my-2">Nenhum dado disponível</div>
 
     <div v-else>
-      <ul class="my-2 list-group">
-        <li v-for="item in items" :key="item.id" class="list-group-item">
-          <router-link :to="`/digital-signature/repositories/${item.id}`">
-            <span :title="formatTitle(item)">
-              {{ item.name }}
-            </span>
-          </router-link>
+      <ul class="my-2 list-group" style="cursor: pointer;">
+        <li v-for="repository in repositories" :title="formatTitle(repository)" :key="repository.id" class="list-group-item" @click="navigateToRepository(repository.id)">
+          {{ repository.name }}
         </li>
       </ul>
     </div>
@@ -33,6 +30,7 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '../store';
 import { formatDate, formatTitle } from '../common/auxiliar';
+
 import CreateRepositoryModal from '../modals/CreateRepositoryModal.vue';
 
 export default {
@@ -43,10 +41,15 @@ export default {
   setup() {
     const authStore = useAuthStore();
     const router = useRouter();
-    const items = ref([]);
+    const repositories = ref([]);
     const loading = ref(true);
     const showCreateRepository = ref(false);
     const apiUrl = import.meta.env.VITE_API_URL;
+
+    const logout = () => {
+      authStore.logout();
+      router.push('/');
+    };
 
     const fetchRepositories = async () => {
       const token = localStorage.getItem('jwt');
@@ -56,12 +59,17 @@ export default {
         }
       });
       if (response.status === 401) {
+        toast("É necessário logar novamente", { autoClose: 2000 });
         authStore.logout();
         router.push('/');
         return;
       }
       const data = await response.json();
-      items.value = data.repositories || [];
+      repositories.value = data.repositories || [];
+    };
+
+    const navigateToRepository = (id) => {
+      router.push(`/digital-signature/repositories/${id}`);
     };
 
     const loadRepositories = async () => {
@@ -85,14 +93,16 @@ export default {
     onMounted(loadRepositories);
 
     return {
-      items,
+      repositories,
       loading,
       formatDate,
       formatTitle,
       showCreateRepository,
       showCreateRepositoryModal,
       closeCreateRepositoryModal,
-      fetchRepositories
+      fetchRepositories,
+      navigateToRepository,
+      logout
     };
   }
 };
