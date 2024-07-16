@@ -1,8 +1,10 @@
-# Digital Signature
+# Desafio AVMB - Fullstack Dev
 
-This is a single-page application (SPA) featuring user authentication, repository management, and handling of digital envelopes with documents and signatories.
+## Descrição
 
-## Technologies
+Este é um SPA que inclui autenticação de usuário, gerenciamento de repositórios e manipulação de envelopes digitais com documentos e signatários.
+
+## Tecnologias
 
 - Vite
 - Vue.js
@@ -10,27 +12,27 @@ This is a single-page application (SPA) featuring user authentication, repositor
 - Pinia
 - Bootstrap
 
-## Usage
+## Como usar
 
 ```bash
 docker compose up -d
 ```
 
-## Screenshots
+## Imagens
 
-### Register
+### Registrar usuário
 
 ![Register](assets/Screenshot_16-7-2024_143219_localhost.jpeg)
 
-### Login
+### Fazer Login
 
 ![Login](assets/Screenshot_16-7-2024_143232_localhost.jpeg)
 
-### Repositories
+### Repositórios
 
 ![Repositories](assets/Screenshot_16-7-2024_143248_localhost.jpeg)
 
-### Create Repository
+### Criar repositório
 
 ![CreateRepository](assets/Screenshot_16-7-2024_143320_localhost.jpeg)
 
@@ -38,14 +40,14 @@ docker compose up -d
 
 ![Envelopes](assets/Screenshot_16-7-2024_143319_localhost.jpeg)
 
-### Create Envelope
+### Criar Envelope
 
 ![CreateEnvelope](assets/Screenshot_16-7-2024_143411_localhost.jpeg)
 
-### Envelope Details
+### Detalhes do Envelope
 
 ![EnvelopeDetails](assets/Screenshot_16-7-2024_143337_localhost.jpeg)
 
-### Add Signatory
+### Adicionar Signatário
 
 ![AddSignatory](assets/Screenshot_16-7-2024_143927_localhost.jpeg)
