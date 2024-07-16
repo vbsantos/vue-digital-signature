@@ -18,7 +18,6 @@
             {{ isLogin ? 'Criar Conta' : 'Já tenho uma conta' }}
           </button>
         </form>
-        <div v-if="error" class="alert alert-danger mt-3">{{ error }}</div>
       </div>
     </div>
   </div>
@@ -49,10 +48,8 @@ const authenticate = async () => {
       },
       body: JSON.stringify({ email: email.value, password: password.value })
     });
-    console.log({response});
     if (!response.ok) {
-      toast("Falha na autenticação", { autoClose: 2000 });
-      throw new Error('Falha na autenticação');
+      throw new Error(isLogin.value ? 'Falha na autenticação' : 'Falha no registro');
     }
     if (!isLogin.value) {
       toast("Registro efetuado com sucesso", { autoClose: 2000 });
@@ -64,7 +61,7 @@ const authenticate = async () => {
     toast("Login efetuado com sucesso", { autoClose: 2000 });
     router.push('/digital-signature/repositories');
   } catch (err) {
-    toast("Erro ao fazer login", { autoClose: 2000 });
+    toast(isLogin.value ? 'Falha na autenticação' : 'Falha no registro', { autoClose: 2000 });
     console.error('Erro ao autenticar:', err);
     error.value = err.message;
   }
@@ -76,10 +73,6 @@ const toggleAuthMode = () => {
   password.value = '';
   error.value = '';
 };
-</script>
 
-<style scoped>
-.error {
-  color: red;
-}
-</style>
+console.log(import.meta.env);
+</script>
